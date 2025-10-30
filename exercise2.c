@@ -15,6 +15,7 @@
  * 
  * The function should sort the list by rearranging pointers,
  * not by creating new nodes or swapping data values.
+ * Returns pointer to the new head of the sorted list.
  */
 
  /*Har ændret så retur typen er en pointer til en node,
@@ -61,4 +62,30 @@ void print_list(node* list) {
     printf(" -> NULL\n");
 }
 
+/* Helper function to create a node */
+node *create_node(int data)
+{
+    node *new_node = (node *)malloc(sizeof(node));
+    if (!new_node)
+    {
+        fprintf(stderr, "Memory allocation failed\n");
+        exit(EXIT_FAILURE);
+    }
+    new_node->data = data;
+    new_node->next = NULL;
+    return new_node;
+}
 
+/* Helper function to free the list */
+void free_list(node *list)
+{
+    node *current = list;
+    node *next_node;
+
+    while (current != NULL)
+    {
+        next_node = current->next;
+        free(current);
+        current = next_node;
+    }
+}
