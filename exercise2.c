@@ -22,7 +22,7 @@
  kan ikke se hvordan man skal løse opgaven ved kun at flytte pointers*/
 node* isort(node* list) {
     /* TODO: Implement insertion sort for linked list */
-    if(list == NULL) return;
+    if(list == NULL) return NULL;
 
     node* sorted = NULL;
     node* current = list;
