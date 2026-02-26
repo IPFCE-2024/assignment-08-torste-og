@@ -56,6 +56,9 @@ bool full(stack *s) {
  * DO NOT access s->head or any internal stack structure directly!
  */
 
+// Declarations
+queue q;
+
 /* 
  * Initialize an empty queue
  * q: pointer to the queue structure
@@ -64,6 +67,9 @@ bool full(stack *s) {
  */
 void init_queue(queue *q) {
     /* TODO: initialize queue */
+
+    initialize(&q->s1);
+    initialize(&q->s2);
 }
 
 /* 
@@ -73,6 +79,7 @@ void init_queue(queue *q) {
  */
 void enqueue(queue *q, int x) {
     /* TODO: Implement enqueue using ONLY stack operations */
+    push(&q->s1, x);
 }
 
 /* 
@@ -82,7 +89,24 @@ void enqueue(queue *q, int x) {
 int dequeue(queue *q) {
     /* TODO: Implement dequeue using ONLY stack operations */
     
-    return 0;  // TODO: Replace with actual implementation
+    assert(!empty(&q->s1) || !empty(&q->s2));
+
+    int x;  // The front value to dequeue.
+
+    // "Traverse" to the front of the queue, i.e. bottom of s1.
+    while (empty(&q->s1) == false) {
+        push(&q->s2, pop(&q->s1));
+    }
+
+    // Store and remove the front of the queue (top of s2).
+    x = pop(&q->s2);
+
+    // Restore the queue to s1.
+    while (empty(&q->s2) == false) {
+        push(&q->s1, pop(&q->s2));
+    }
+
+    return x;
 }
 
 /* 

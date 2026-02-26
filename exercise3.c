@@ -16,6 +16,11 @@
  */
 void initialize(queue *q) {
     /* TODO: Initialize the queue */
+    
+    q->front = NULL;
+    q->rear = NULL;
+    q->count = 0;
+
 }
 
 /* 
@@ -28,6 +33,23 @@ void initialize(queue *q) {
  */
 void enqueue(queue *q, int x) {
     /* TODO: Implement enqueue */
+
+    node* new_node = (node*)malloc(sizeof(node));
+    assert(new_node != NULL);
+
+    new_node->data = x;
+    new_node->next = NULL;
+
+    // If count == 0, rear and front point to the same address.
+    if (q->count == 0) {
+        q->front = new_node;
+        q->rear = new_node;
+        q->count = q->count + 1;
+    } else {    // If count > 0, rear points to new node with data entry x.
+        q->rear->next = new_node;
+        q->rear = new_node;
+        q->count = q->count + 1;
+    }
 }
 
 /* 
@@ -39,7 +61,24 @@ void enqueue(queue *q, int x) {
  */
 int dequeue(queue *q) {
     /* TODO: Implement dequeue */
-    return 0;  
+
+    assert(q->count != 0);
+
+    int x = q->front->data; // Store the value in front.
+    node* free_later = q->front; // Store address of front to free later.
+
+    if (q->count == 1) {
+        q->front = NULL;
+        q->rear = NULL;
+    } else {
+        q->front = q->front->next;  // Replace the frot with the next element.
+    }
+
+    q->count--;
+
+    free(free_later); // Free former front.
+
+    return x;  
 }
 
 /* 
@@ -49,7 +88,7 @@ int dequeue(queue *q) {
  */
 bool empty(const queue *q) {
     /* TODO: Implement empty check */
-    return false; 
+    return q->count == 0; 
 }
 
 /* 
